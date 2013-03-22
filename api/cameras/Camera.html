@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script src="../../list.js"></script>
+		<script src="../../page.js"></script>
+		<link type="text/css" rel="stylesheet" href="../../page.css" />
+	</head>
+	<body>
+		[page:Object3D] &rarr;
+
+		<h1>镜头（Camera）</h1>
+
+		<div class="desc">镜头的抽象基类，当创建新的镜头对象时需要继承于此类。</div>
+
+
+		<h2>构造函数（Constructor）</h2>
+
+		<h3>[name]()</h3>
+		<div>
+			此构造函数为下面所列的属性设置初始类型，分别为：matrixWorldInverse, projectionMatrix 和 projectionMatrixInverse.
+			
+		</div>
+
+
+		<h2>属性（Properties）</h2>
+
+		<h3>.[page:Matrix4 matrixWorldInverse]</h3>
+		<div>This is the inverse of matrixWorld. MatrixWorld contains the Matrix which has the world transform of the Camera.</div>
+
+		<h3>.[page:Matrix4 projectionMatrix]</h3>
+		<div>This is the matrix which contains the projection.</div>		
+
+		<h3>.[page:Matrix4 projectionMatrixInverse]</h3>
+		<div>This is the inverse of projectionMatrix.</div>
+
+
+		<h2>方法（Methods）</h2>
+
+		<h3>.lookAt( [page:Vector3 vector] )</h3>
+		<div>
+		vector — 指向镜头所看位置<br />
+		<br />
+		设置镜头所看方向为参数向量所指向的位置。当前camera的父节点要为scene或当前camera的空间位置为(0,0,0)。
+		</div>
+
+
+		<h2>源代码（Source）</h2>
+
+		[link:https://github.com/mrdoob/three.js/blob/master/src/[path].js src/[path].js]
+	</body>
+</html>

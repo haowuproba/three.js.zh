@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script src="../../list.js"></script>
+		<script src="../../page.js"></script>
+		<link type="text/css" rel="stylesheet" href="../../page.css" />
+	</head>
+	<body>
+		<h1>几何体（Geometry）</h1>
+
+		<div class="desc">
+		创建各种几何体的基类。<br />
+		一个几何体包涵了描述一个3D模型所必需的所有数据。
+		</div>
+
+
+		<h2>Example</h2>
+
+		<code>var geometry = new THREE.Geometry()
+
+		geometry.vertices.push( new THREE.Vector3( -10,  10, 0 ) );
+		geometry.vertices.push( new THREE.Vector3( -10, -10, 0 ) );
+		geometry.vertices.push( new THREE.Vector3(  10, -10, 0 ) );
+
+		geometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
+
+		geometry.computeBoundingSphere();
+		</code>
+
+		<h2>Constructor</h2>
+
+		<h3>[name]()</h3>
+
+
+		<h2>Properties</h2>
+
+		<h3>.[page:Integer id]</h3>
+		<div>
+		该几何体实例的唯一标识（整数）。
+		
+		</div>
+		
+		<h3>.[page:String name]</h3>
+		<div>
+		几何体名称，默认为空。
+		
+		</div>
+
+		<h3>.[page:Array vertices]</h3>
+		<div>
+		
+		保存模型顶点（[page:Vector3 vertices]）的数组。<br />
+		该数组保存了该3D模型的每个顶点的空间位置。<br />
+		标识该数组更新时，[page:Geometry Geometry.verticesNeedUpdate]值要设置为true。
+		
+		</div>
+
+		<h3>.[page:Array colors]</h3>
+		<div>
+		顶点颜色（[page:Color colors]）数组，与定点的数量和顺序相匹配。
+		<br />
+		应用于[page:ParticleSystem], [page:Line] 和 [page:Ribbon]。
+		<br />
+		[page:Mesh Meshes] use per-face-use-of-vertex colors embedded directly in faces.<br />
+		标识该数组更新时，[page:Geometry Geometry.colorsNeedUpdate]值要设置为true。
+		
+		</div>
+
+		<h3>.[page:Array normals]</h3>
+		<div>
+		顶点法向量（[page:Vector3 normals]）数组，与定点的数量和顺序相匹配。
+		<br />
+		法向量（[link:http://en.wikipedia.org/wiki/Normal_(geometry) Normal vectors]）在配置光照效果时需要用到。
+		<br />
+		标识该数组更新时，[page:Geometry Geometry.normalsNeedUpdate]值要设置为true。
+		
+		</div>
+
+		<h3>.[page:Array faces]</h3>
+		<div>
+		包涵三角形（[page:Face3 triangles]）面或/和四边形（[page:Face4 quads]）面对象的数组，
+		<br />
+		数组描述了该3D模型中各顶点间的关联关系。
+		<br />
+		标识该数组更新时，[page:Geometry Geometry.elementsNeedUpdate]值要设置为true。
+		
+		</div>
+
+		<h3>.[page:Array faceUvs]</h3>
+		<div>
+		Array of face [page:UV] layers.<br />
+		Each UV layer is an array of [page:UV] matching order and number of faces.<br />
+		To signal an update in this array, [page:Geometry Geometry.uvsNeedUpdate] needs to be set to true.
+		</div>
+
+		<h3>.[page:Array faceVertexUvs]</h3>
+		<div>
+		Array of face [page:UV] layers.<br />
+		Each UV layer is an array of [page:UV] matching order and number of vertices in faces.<br />
+		To signal an update in this array, [page:Geometry Geometry.uvsNeedUpdate] needs to be set to true.
+		</div>
+
+		<h3>.[page:Array morphTargets]</h3>
+		<div>
+		Array of morph targets. Each morph target is a Javascript object:
+		<code>{ name: "targetName", vertices: [ new THREE.Vector3(), ... ] }</code>
+		Morph vertices match number and order of primary vertices.
+		</div>
+
+		<h3>.[page:Array morphColors]</h3>
+		<div>
+		Array of morph colors. Morph colors have similar structure as morph targets, each color set is a Javascript object:
+		<code>morphColor = { name: "colorName", colors: [ new THREE.Color(), ... ] }</code>
+		Morph colors can match either number and order of faces (face colors) or number of vertices (vertex colors).
+		</div>
+
+		<h3>.[page:Array morphColors]</h3>
+		<div>
+		Array of morph normals. Morph Normals have similar structure as morph targets, each normal set is a Javascript object:
+		<code>morphNormal = { name: "NormalName", normals: [ new THREE.Vector3(), ... ] }</code>
+		</div>
+
+		<h3>.[page:Array skinWeights]</h3>
+		<div>
+		Array of skinning weights, matching number and order of vertices.
+		</div>
+
+		<h3>.[page:Array skinIndices]</h3>
+		<div>
+		Array of skinning indices, matching number and order of vertices.
+		</div>
+
+		<h3>.[page:Object boundingBox]</h3>
+		<div>
+		Bounding box.
+		<code>{ min: new THREE.Vector3(), max: new THREE.Vector3() }</code>
+		</div>
+
+		<h3>.[page:Object boundingSphere]</h3>
+		<div>
+		Bounding sphere.
+		<code>{ radius: float }</code>
+		</div>
+
+		<h3>.[page:Boolean hasTangents]</h3>
+		<div>
+		True if geometry has tangents. Set in [page:Geometry Geometry.computeTangents].
+		</div>
+
+		<h3>.[page:Boolean dynamic]</h3>
+		<div>
+		Set to *true* if attribute buffers will need to change in runtime (using "dirty" flags).<br/>
+		Unless set to true internal typed arrays corresponding to buffers will be deleted once sent to GPU.<br/>
+		Defaults to true.
+		</div>
+		
+		<h3>.verticesNeedUpdate</h3>
+		<div>
+		当vertices array已更新时，该值要设置为*true*。
+		
+		</div>
+		
+		<h3>.elementsNeedUpdate</h3>
+		<div>
+		当faces array已更新时，该值要设置为*true*。
+		
+		</div>
+		
+		<h3>.uvsNeedUpdate</h3>
+		<div>
+		当uvs array已更新时，该值要设置为*true*。
+		
+		</div>
+		
+		<h3>.normalsNeedUpdate</h3>
+		<div>
+		当normals array已更新时，该值要设置为*true*。
+		
+		</div>
+		
+		<h3>.tangentsNeedUpdate</h3>
+		<div>
+		当面的正切值已更新时，该值要设置为*true*。
+		
+		</div>
+		
+		<h3>.colorsNeedUpdate</h3>
+		<div>
+		当colors array已更新时，该值要设置为*true*。
+		
+		</div>
+		
+		<h3>.lineDistancesNeedUpdate</h3>
+		<div>
+		当linedistances array已更新时，该值要设置为*true*。
+		
+		</div>
+		
+		<h3>.buffersNeedUpdate</h3>
+		<div>
+		当有数组长度更新时，该值要设置为*true*。
+		
+		</div>
+
+		<h2>Methods</h2>
+
+		<h3>.applyMatrix( [page:Matrix4 matrix] )</h3>
+		<div>
+		Bakes matrix transform directly into vertex coordinates.
+		</div>
+
+		<h3>.computeCentroids()</h3>
+		<div>
+		计算各面的质心。
+		
+		</div>
+
+		<h3>.computeFaceNormals()</h3>
+		<div>
+		计算各面的法向量。
+		
+		</div>
+
+		<h3>.computeVertexNormals()</h3>
+		<div>
+		通过各面的法向量均值计算求得各顶点法向量。
+		<br />
+		计算前各面的法向量值必须以存在。
+		
+		</div>
+
+		<h3>.computeMorphNormals()</h3>
+		<div>
+		Computes morph normals.
+		</div>
+
+		<h3>.computeTangents()</h3>
+		<div>
+		计算顶点的正切。
+		<br />
+		基于： [link:http://www.terathon.com/code/tangent.html]<br />
+		几何体必须具有vertex [page:UV UVs] (layer 0 will be used)。
+		
+		</div>
+
+		<h3>.computeBoundingBox()</h3>
+		<div>
+		计算该几何体的盒子体边界（bounding box），同时更新属性[page:Geometry Geometry.boundingBox]。
+		
+		</div>
+
+		<h3>.computeBoundingSphere()</h3>
+		<div>
+		计算该几何体的球形体边界（bounding sphere），同时更新属性[page:Geometry Geometry.boundingSphere]。
+		
+		</div>
+		
+		<div>
+		几何体的bounding boxes值和bounding spheres值默认为*null*，使用时需要调用相应方法进行具体计算。
+		</div>
+
+		<h3>.mergeVertices()</h3>
+		<div>
+		检测顶点冗余（using hashmap）。
+		<br />
+		重复的顶点会被删除，之后几何体的面和定点会进行更新。
+		
+		</div>
+		
+		<h3>.clone()</h3>
+		<div>
+		创建一份该几何体的拷贝。
+		
+		</div>
+		
+		<h3>.dispose()</h3>
+		<div>
+		从内存中删除该几何体。
+		<br />
+		当您删除某个几何体时记得要调用一下该方法，以免几何体的占用而引起内存泄漏。
+		
+		</div>
+
+
+		<h2>Source</h2>
+
+		[link:https://github.com/mrdoob/three.js/blob/master/src/[path].js src/[path].js]
+	</body>
+</html>

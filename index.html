@@ -1,74 +1,206 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>three.js - documentation</title>
+		<style>
+			@font-face {
+				font-family: 'inconsolata';
+				src: url('files/inconsolata.woff') format('woff');
+				font-weight: normal;
+				font-style: normal;
+			}
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="three.js.zh : " />
+			html {
+				height: 100%;
+			}
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+			body {
+				margin: 0;
+				padding: 0;
+				height: 100%;
+				color: #555;
+				font-family: 'inconsolata';
+				font-size: 15px;
+				line-height: 18px;
+				overflow: hidden;
+			}
 
-    <title>three.js.zh</title>
-  </head>
+			a {
 
-  <body>
+				color: #2194CE;
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/webglguide/three.js.zh">View on GitHub</a>
+			}
 
-          <h1 id="project_title">three.js.zh</h1>
-          <h2 id="project_tagline"></h2>
+			#panel	{
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/webglguide/three.js.zh/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/webglguide/three.js.zh/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+				position: fixed;
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>Welcome to GitHub Pages.</h3>
+				width: 260px;
+				height: 100%;
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+				overflow: auto;
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+			}
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+				#panel h1 {
+					margin-top: 20px;
+					margin-left: 20px;
+					font-size: 25px;
+					font-weight: normal;
+				}
 
-<h3>Designer Templates</h3>
+				#panel h1 a {
+					color: #444;
+					text-decoration: none;
+				}
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+				#panel h2 {
+					color: #454545;
+					font-size: 18px;
+					font-weight: normal;
 
-<h3>Rather Drive Stick?</h3>
+					margin-top: 20px;
+					margin-left: 20px;
+				}
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+				#panel h3 {
+					color: #666;
+					font-size: 16px;
+					font-weight: normal;
 
-<h3>Authors and Contributors</h3>
+					margin-top: 20px;
+					margin-left: 20px;
+				}
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+				#panel ul {
+					list-style-type: none;
+					padding: 0px;
+					margin-left: 20px;
+				}
 
-<h3>Support or Contact</h3>
+			#viewer {
+				border: 0px;
+				margin-left: 260px;
+				width: -webkit-calc(100% - 260px);
+				width: -moz-calc(100% - 260px);
+				width: calc(100% - 260px);
+				height: 100%;
+				overflow: auto;
+			}
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
+		</style>
+	</head>
+	<body>
+		<div id="panel"></div>
+		<iframe id="viewer"></iframe>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">three.js.zh maintained by <a href="https://github.com/webglguide">webglguide</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
+		<script src="list.js"></script>
+		<script>
+			var REVISION = '57';
 
-    
+			var panel = document.getElementById( 'panel' );
+			var viewer = document.getElementById( 'viewer' );
 
-  </body>
+			var html = '<h1><a href="http://threejs.org">three.js</a><span style="font-size: 50%; vertical-align: super;"> r' + REVISION + '</span></h1>';
+
+			var DELIMITER = '/';
+			var nameCategoryMap = {};
+
+			for ( var section in list ) {
+
+				html += '<h2>' + section + '</h2>';
+
+				html += '<ul>';
+
+				for ( var category in list[ section ] ) {
+
+					html += '<h3>' + category + '</h3>';
+
+					html += '<ul>';
+
+					for ( var i = 0; i < list[ section ][ category ].length; i ++ ) {
+
+						var page = list[ section ][ category ][ i ];
+
+						html += '<li><a href="javascript:goTo(\'' + section + '\', \'' + category + '\', \'' + page[ 0 ] + '\')">' + page[ 0 ] + '</a></li>';
+
+						nameCategoryMap[page[0]] = {
+							section: section,
+							category: category,
+							name: page[0]
+						};
+
+					}
+
+					html += '</ul>';
+
+				}
+
+				html += '</ul>';
+
+			}
+
+			panel.innerHTML += html;
+
+			function encodeUrl( path ) {
+
+				return path.replace(/\ \/\ /g, '.').replace(/\ /g, '_');
+
+			}
+
+			function decodeUrl( path ) {
+
+				return path.replace(/_/g, ' ').replace(/\./g, ' / ');
+
+			}
+
+			// Page loading
+
+			function goTo( section, category, name ) {
+
+				// Fully resolve links that only provide a name
+				if(arguments.length == 1) {
+					var location = nameCategoryMap[section];
+					section = location.section;
+					category = location.category;
+					name = location.name;
+				}
+
+				var title = 'three.js - documentation - ' + section + ' - ' + name;
+				var url = encodeUrl(section) + DELIMITER + encodeUrl( category ) + DELIMITER + encodeUrl(name);
+
+				window.location.hash = url;
+				window.document.title = title;
+
+
+				viewer.src = pages[ section ][ category ][ name ] + '.html';
+
+			}
+
+			function goToHash() {
+
+				var hash = window.location.hash.substring( 1 ).split(DELIMITER);
+				goTo( decodeUrl(hash[0]), decodeUrl(hash[1]), decodeUrl(hash[2]) );
+
+			}
+
+			window.addEventListener( 'hashchange', goToHash, false );
+
+			if ( window.location.hash.length > 0 ) goToHash();
+
+		</script>
+		
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-39509598-1', 'github.com');
+		  ga('send', 'pageview');
+
+		</script>
+
+	</body>
 </html>

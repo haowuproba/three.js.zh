@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script src="../../list.js"></script>
+		<script src="../../page.js"></script>
+		<link type="text/css" rel="stylesheet" href="../../page.css" />
+	</head>
+	<body>
+		<h1>场景的创建</h1>
+
+		<div>本部分将简要介绍一下Three.js. 我们将从创建一个简单的场景（scene）开始, 其中会展现一个旋转的立方体. 文章结尾处提供了示例代码，以供参考.</div>
+
+		<h2>Three.js 是什么?</h2>
+
+		<div>如果您已经正在阅读本文档了，我想您可能对Three.js已经有一个大概的了解了，以及它将为您的工作带来哪些帮助，下面就让我们一同简单地认识一下它吧。</div>
+
+		<div>Three.js 是一个封装了WebGL相关操作的Javascript库，它使得Javascript对WebGL的操作非常简便。在创建一个简单的立方体时，如果使用原生的WebGL API往往需要尽百行的Javascript代码，而Three.js仅需数行即可完成（译者注：因为Three.js已经封装了WebGL绘图时的相关原生操作，同时WebGL又提供了很多非常好有的绘图API）。</div>
+
+		<h2>Three.js使用前的准备</h2>
+		<div>使用Three.js前，让我们先看一下Three.js如何加载。将下面的代码以.html文件保存，然后在浏览器中打开（译者注：支持WebGL显示的浏览器）。</div>
+
+		<code>
+		&lt;html&gt;
+			&lt;head&gt;
+				&lt;title&gt;My first Three.js app&lt;/title&gt;
+				&lt;style&gt;canvas { width: 100%; height: 100% }&lt;/style&gt;
+			&lt;/head&gt;
+			&lt;body&gt;
+				&lt;script src="https://raw.github.com/mrdoob/three.js/master/build/three.js"&gt;&lt;/script&gt;
+				&lt;script&gt;
+					// Our Javascript will go here.
+				&lt;/script&gt;
+			&lt;/body&gt;
+		&lt;/html&gt;
+		</code>
+
+		<div>就这么简单，以后的代码只需陆续添加到上面的空&lt;script&gt;标签中就可以了。</div>
+
+		<h2>创建场景（scene）</h2>
+
+		<div>Three.js在展现绘图时需要三个最基本的元素：场景（scene），镜头（camera）和渲染器（renderer），这样我们就可以用镜头来展现场景了。</div>
+
+		<code>
+		var scene = new THREE.Scene();
+		var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+		var renderer = new THREE.WebGLRenderer();
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+		</code>
+
+		<div>先来简单解释一下上面的代码，我们已经创建场景，镜头和渲染器。Three.js中多种镜头，后面我们会详细介绍，这里我们所使用的是透视镜头（PerspectiveCamera），它的第一个参数（译者注：75，表示视野垂直视角，单位为度数）表示<strong>视野的大小</strong>。</div>
+
+		<div>镜头的第二个参数是<strong>横纵比（aspect ratio）</strong>。 一般常用值为宽：高, 他的实际效果当您在宽屏电视上观看旧时拍摄的电影时会有类似的体会（译者注：该值控制着场景中所展现的物体的宽高比例）。</div>
+
+		<div>最后两个参数是<strong>近</strong>、<strong>远</strong>视域截面，这两个值之间的区域为可视域范围，超出此范围的物体被截面截断而不可视，现在读者还不用太关心这两个值，但是如果您想使您所开发的游戏具有更好的性能，可能您就需要对这两个做一下相应的改动了。</div>
+
+		<div>再看一下同样神奇的渲染器。这里我们使用的渲染器种类是WebGLRenderer，同样Three.js中还有其它一些种类的渲染器，通常用于因为某些原因不支持WebGL或支持较差的浏览器环境中。</div>
+
+		<div>在创建渲染器的同时，我们需要设置它的大小，一般为设置为与浏览器窗口相同大小（译者注：即宽：window.innerWidth，高：window.innerHeight）为宜。在比较关注性能的应用中，也可以设置为更小的值或窗口大小的一般即：<strong>window.innerWidth/2</strong> 、 <strong>window.innerHeight/2</strong>，具体效果可以自行运行尝试。</div>
+
+		<div>然后，我们要将<strong>renderer</strong>添加到HTML的document中，渲染器利用&lt;canvas&gt;元素来展现我们所创建的场景（译者注：WebGL在浏览器中的展现环境（context）的接口是通过&lt;canvas&gt元素接入的，这里的&lt;canvas&gt元素已由Three.js自行构建好了）。</div>
+
+		<div><em>“很好，但是你之前说的那个立方体呢？”</em> 好的，让我们现在就添加它。</div>
+
+		<code>
+		var geometry = new THREE.CubeGeometry(1,1,1); 
+		var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+		var cube = new THREE.Mesh( geometry, material );
+		scene.add( cube );
+
+		camera.position.z = 5;
+		</code>
+		
+		<div>我们需要一个<strong>CubeGeometry</strong>对象来创建立方体，它包涵了创建立方体所需的所有顶点（<strong>vertices</strong>）和面（<strong>faces</strong>），在后面我们会详细讨论。</div>
+		
+		<div>同时，我们需要创建材质（material）来装饰它。Three.js提供了多种材质对象，这里我们直接使用<strong>MeshBasicMaterial</strong>这种材质，所有的材质对象都会接受一个对象参数来控制材质的相关属性。简单起见，我们先只设置一个颜色（color）属性，值为：<strong>0x00ff00</strong>，绿色，由十六进制表示<strong>hex colors</strong>，与CSS或Photoshop中的表示一样。</div>	
+		
+		<div>然后我们再来创建一个<strong>Mesh</strong>，它也同样是一个对象，它将我们之前创建的，它也同样是一个对象，它将我们之前创建的material和应用到geometry和material两个对象整合起来，将material装饰到geometry上，然后我们将这个mesh对象添加到场景中，之后即可以对其进行选装或移动了。</div>
+		
+
+		<div>默认情况下，<strong>scene.add()</strong>会将添加的对象在场景中的空间位置设置为(0,0,0)，这会导致镜头和所添加的物体之间空间位置重合（译者注：物体和镜头都没有设置初始位置坐标都为(0,0,0)，使得镜头和创建添加的物体重合在一起了），鉴于此，我们会将稍移动一下镜头的位置。</div>
+
+		<h2>场景展现</h2>
+		
+		<div>如果您将我们之前所创建的代码都黏贴到HTML文件中了，这时如果运行应该还是没有任何东西，因为我们还没有展现它。要展现我们所创建的场景，我们先需要一个<strong>render loop</strong>（译者注：即一个执行renderer.render（）操作的无限循环函数，一般用于与动画相关的场景中，以形成帧变换的动画效果。直接简单执行renderer.render（）也可展现我们之前创建的场景，但这里就没有动画效果了）。</div>
+		
+		<code>
+		function render() {
+			requestAnimationFrame(render);
+			renderer.render(scene, camera);
+		}
+		render();
+		</code>
+		
+		<div>这里会创建一个循环，以每秒60次的频率来绘制之前所创建的场景。如果您还刚接触Web游戏开发，您可能会问为什么不使用<strong>setInterval</strong>来实现循环呢？之所以用<strong>requestAnimationFrame</strong>是因为相比之下它有众多优点，最关键的是当用户转到浏览器的其他窗口时这个循环会自动停止，因此会为用户节省很多不必要的运行资源开销和电池电量（移动用户）。 
+
+		<h2>立方体动画实现</h2>
+		<div>如果您已经添加了以上所有的代码，您将看到一个绿色的立方体的一个面（正方形），下面让我们使它转动起来。</div>
+		
+		<div>将以下代码添加到<strong>render()</strong>中。</div>
+
+		
+		<code>
+		cube.rotation.x += 0.1;
+		cube.rotation.y += 0.1;
+		</code>
+		
+		<div>这会以每秒60次的帧变换频率使立方体转动起来。基本上在您开发的游戏或应用中，任何您想实现的动画效果都可以添加到循环函数render()中，当然您也可以在其中调用其它函数来封装您要添加代码，而不至于使得<strong>render</strong>函数中代码量过长。</div>
+		
+
+		<h2>运行展示</h2>
+		<div>祝贺您！现在您已经完成了您的第一个Three.js应用的构建，极其简单，相信您已经开始起步了。</div>
+		
+		<div>示例的全部代码整理如下，您可以自己多调试运行几次，以期对其中各对象的功能和使用能有一个更好的了解。</div>
+		
+		<code>
+		&lt;html&gt;
+			&lt;head&gt;
+				&lt;title&gt;My first Three.js app&lt;/title&gt;
+				&lt;style&gt;canvas { width: 100%; height: 100% }&lt;/style&gt;
+			&lt;/head&gt;
+			&lt;body&gt;
+				&lt;script src="https://raw.github.com/mrdoob/three.js/master/build/three.js"&gt;&lt;/script&gt;
+				&lt;script&gt;
+					var scene = new THREE.Scene();
+					var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+
+					var renderer = new THREE.WebGLRenderer();
+					renderer.setSize(window.innerWidth, window.innerHeight);
+					document.body.appendChild(renderer.domElement);
+
+					var geometry = new THREE.CubeGeometry(1,1,1);
+					var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+					var cube = new THREE.Mesh(geometry, material);
+					scene.add(cube);
+
+					camera.position.z = 5;
+
+					function render() {
+						requestAnimationFrame(render);
+
+						cube.rotation.x += 0.1;
+						cube.rotation.y += 0.1;
+
+						renderer.render(scene, camera);
+					}
+					render();
+				&lt;/script&gt;
+			&lt;/body&gt;
+		&lt;/html&gt;
+		</code>
+	</body>
+</html>

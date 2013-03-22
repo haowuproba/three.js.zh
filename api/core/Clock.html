@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script src="../../list.js"></script>
+		<script src="../../page.js"></script>
+		<link type="text/css" rel="stylesheet" href="../../page.css" />
+	</head>
+	<body>
+		<h1>时钟（Clock）</h1>
+
+		<div class="desc">时间记录跟踪对象（译者注：一般用于根据时间差异而变换显示效果）。</div>
+
+
+		<h2>构造函数</h2>
+
+		<h3>[name]( [page:Boolean autoStart] )</h3>
+		<div>
+		autoStart — 自动开启时钟设置。
+		</div>
+
+		<h2>属性</h2>
+
+		<h3>.[page:Boolean autoStart]</h3>
+		<div>
+		If set, starts the clock automatically when the first update is called.
+		</div>
+
+		<h3>.[page:Float startTime]</h3>
+		<div>
+		When the clock is running, It holds the starttime of the clock. <br />
+		This counted from the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC.
+ 		</div>
+
+
+		<h3>.[page:Float oldTime]</h3>
+		<div>
+		When the clock is running, It holds the previous time from a update.<br />
+		This counted from the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC.
+ 		</div>
+
+		<h3>.[page:Float elapsedTime]</h3>
+		<div>
+		When the clock is running, It holds the time elapsed between the start of the clock to the previous update.<br />
+		This counted from the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC.
+ 		</div>
+
+		<h3>.[page:Boolean running]</h3>
+		<div>
+		This property keeps track whether the clock is running or not.
+ 		</div>
+
+
+		<h2>方法</h2>
+
+		<h3>.start()</h3>
+		<div>
+		开启时钟。
+		</div>
+
+		<h3>.stop()</h3>
+		<div>
+		关闭时钟。
+		</div>
+
+		<h3>.getElapsedTime() [page:Float]</h3>
+		<div>
+		获得自开启时钟到调用该方法是所经过的时间。		
+		</div>
+
+		<h3>.getDelta() [page:Float]</h3>
+		<div>
+		获得自上次调用该方法时到这次调用该方法是所经过的时间。		
+		</div>
+
+
+		<h2>源代码</h2>
+
+		[link:https://github.com/mrdoob/three.js/blob/master/src/[path].js src/[path].js]
+	</body>
+</html>

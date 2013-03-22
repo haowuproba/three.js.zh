@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script src="../../list.js"></script>
+		<script src="../../page.js"></script>
+		<link type="text/css" rel="stylesheet" href="../../page.css" />
+	</head>
+	<body>
+		[page:Object3D] &rarr; [page:Camera] &rarr;
+
+		<h1>透视镜头（PerspectiveCamera）</h1>
+
+		<div class="desc">以透视投影方式成像的镜头（译者注：<a href="http://goo.gl/0XNsF" target="_blank">示意图</a>）。</div>
+
+
+		<h2>代码示例</h2>
+
+		<code>var camera = new THREE.PerspectiveCamera( 45, width / height, 1, 1000 );
+scene.add( camera );</code>
+
+
+		<h2>构造函数</h2>
+
+		<h3>[name]( [page:Float fov], [page:Float aspect], [page:Float near], [page:Float far] )</h3>
+		<div>
+		fov — 镜头视野垂直视角。<br />
+		aspect — 视野内物体展示的横纵比（aspect ratio）。<br />
+		near — 视野近视域截面。<br />
+		far — 视野远视域截面。
+		</div>
+
+
+		<h2>属性</h2>
+
+		<h3>.[page:Float fov]</h3>
+		<div>镜头视野垂直视角，单位为度数。</div>
+
+		<h3>.[page:Float aspect]</h3>
+		<div>视野内物体展示的横纵比，通常设置为窗口的宽度/窗口的高度。</div>
+
+		<h3>.[page:Float near]</h3>
+		<div>视野近视域截面（译者注：截面与视点的距离）。</div>
+
+		<h3>.[page:Float far]</h3>
+		<div>视野远视域截面。</div>
+
+
+		<h2>方法</h2>
+
+		<h3>.setLens( [page:Float focalLength], [page:Float frameSize] )</h3>
+		<div>
+		focalLength — 焦距（译者注：<a href="http://goo.gl/YW2FB" target="_blank">示意图</a>，<a href="http://goo.gl/8M8Lc" target="_blank">作用</a>）<br />
+		frameSize — Camera底片大小（frame size）
+		</div>
+
+		<div>
+		焦距（单位为mm）和frameSize（默认值为35mm）共同控制镜头取景范围的大小。
+		<br />
+		计算公式基于： [link:http://www.bobatkins.com/photography/technical/field_of_view.html]
+		</div>
+
+		<h3>.setViewOffset( [page:Float fullWidth], [page:Float fullHeight], [page:Float x], [page:Float y], [page:Float width], [page:Float height] )</h3>
+		<div>
+		fullWidth — 多画面的总宽度。<br />
+		fullHeight — 多画面的总高度。<br />
+		x — 相应子画面的x坐标（译者注：左上角点的）。<br />
+		y — 相应子画面的y坐标（译者注：左上角点的）。<br />
+		width — 子画面的宽度。<br />
+		height — 子画面的高度。
+		</div>
+
+		<div>
+		该方法可完成在镜头视域内设置多个画面来展现场景，在对于对窗口或多显示器的应用环境中比较有用（译者注：是多画面合作展现同一个镜头中的场景，类似于平时生活中透过一块打上格子的窗子看窗外的风景，每个格子窗即为这里的子画面subcamera。优点在于1）子画面可以有序的在一起，此时即为窗子打上格子的效果；2）子画面可以在空间位置上分离，各自展现的内容可以和分离前一样，也可以不一样，这个根据实际需求可以设置）。
+		</div>
+
+		<div>
+		例如，我们有6个显示器，分辨率为1920x1080，空间放置位置如下：<br />
+
+		<pre>+---+---+---+
+| A | B | C |
++---+---+---+
+| D | E | F |
++---+---+---+</pre>
+
+		对每个显示器所展现场景可以设置如下：<br />
+
+		<code>var w = 1920;
+var h = 1080;
+var fullWidth = w * 3;
+var fullHeight = h * 2;
+
+// A
+camera.setViewOffset( fullWidth, fullHeight, w * 0, h * 0, w, h );
+// B
+camera.setViewOffset( fullWidth, fullHeight, w * 1, h * 0, w, h );
+// C
+camera.setViewOffset( fullWidth, fullHeight, w * 2, h * 0, w, h );
+// D
+camera.setViewOffset( fullWidth, fullHeight, w * 0, h * 1, w, h );
+// E
+camera.setViewOffset( fullWidth, fullHeight, w * 1, h * 1, w, h );
+// F
+camera.setViewOffset( fullWidth, fullHeight, w * 2, h * 1, w, h );
+</code>
+
+		注意：每个显示器或者画面的大小及空间位置均可按实际需求进行设置。
+		</div>
+
+		<h3>.updateProjectionMatrix()</h3>
+		<div>
+		更新镜头投射空间矩阵，当镜头的参数改变后必须调用一下此方法。
+		</div>
+
+
+		<h2>Source</h2>
+
+		[link:https://github.com/mrdoob/three.js/blob/master/src/[path].js src/[path].js]
+	</body>
+</html>
