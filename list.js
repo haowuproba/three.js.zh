@@ -2,7 +2,7 @@ var list = {
 
 	"开发指南": {
 		"简介": [
-			[ "场景（scene）的创建", "manual/introduction/Creating-a-scene" ]
+			[ "场景的创建", "manual/introduction/Creating-a-scene" ]
 		]
 	},
 
@@ -25,7 +25,7 @@ var list = {
 			[ "Raycaster", "api/core/Raycaster" ],
 		],
 
-		"Lights": [
+		"灯光（Lights）": [
 			[ "Light", "api/lights/Light" ],
 			[ "AmbientLight", "api/lights/AmbientLight" ],
 			[ "AreaLight", "api/lights/AreaLight" ],

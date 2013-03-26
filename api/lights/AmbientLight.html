@@ -9,10 +9,11 @@
 	<body>
 		[page:Object3D] &rarr; [page:Light] &rarr;
 
-		<h1>[name]</h1>
+		<h1>环绕光（AmbientLight）</h1>
 
 		<div class="desc">
-			This light's color gets applied to all the objects in the scene globally.
+			环绕光/环境光的光线将充斥到整个场景中。
+			
 		</div>
 
 
@@ -25,10 +26,11 @@ scene.add( light );</code>
 
 		<h3>[name]( [page:Float hex] )</h3>
 		<div>
-		[page:Integer hex] — Numeric value of the RGB component of the color.
+		[page:Integer hex] — 表示颜色的十六进制数值（RGB）。
 		</div>
 		<div>
-		This creates a Ambientlight with a color.
+		该函数会创建一个带有参数所表示的颜色的环绕光对象。
+		
 		</div>
 		
 
