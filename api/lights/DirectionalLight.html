@@ -9,10 +9,11 @@
 	<body>
 		[page:Object3D] &rarr; [page:Light] &rarr;
 
-		<h1>[name]</h1>
+		<h1>方向光源（DirectionalLight）</h1>
 
 		<div class="desc">
-			Affects objects using [page:MeshLambertMaterial] or [page:MeshPhongMaterial].
+			材质为[page:MeshLambertMaterial]或[page:MeshPhongMaterial]所创建的对象将受此光的影响。
+		
 		</div>
 
 
@@ -28,7 +29,15 @@ scene.add( directionalLight );</code>
 		<h2>Constructor</h2>
 
 		<h3>[name]( [page:Float hex], [page:Float intensity], [page:Float distance] )</h3>
-
+		<div>
+		[page:Float hex] — 表示颜色的十六进制数值（RGB）。
+		</div>
+		<div>
+		[page:Float intensity] — 光照强度。
+		</div>
+		<div>
+		[page:Float distance] —  光线投射距离（译者注：源码没有第三个参数）。
+		</div>
 
 		<h2>Properties</h2>
 
@@ -51,8 +60,9 @@ scene.add( directionalLight );</code>
 
 		<h3>.[page:Float distance]</h3>
 		<div>
-			If non-zero, light will attenuate linearly from maximum intensity at light *position* down to zero at *distance*.<br />
-			Default — *0.0*.
+			设置为非0值时，光源的强度将从*光源位置*到*distance*线型减弱为0（译者注：源码中无此属性）。
+		<br />
+			默认为 — *0.0*.
 		</div>
 
 		<h3>.[page:Boolean castShadow]</h3>

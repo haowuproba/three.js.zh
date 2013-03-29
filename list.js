@@ -14,25 +14,25 @@ var list = {
 		],
 
 		"Core": [
-			[ "BufferGeometry（待译）", "api/core/BufferGeometry" ],
+			[ "BufferGeometry(待译)", "api/core/BufferGeometry" ],
 			[ "Clock", "api/core/Clock" ],
 			[ "EventDispatcher", "api/core/EventDispatcher" ],
 			[ "Face3", "api/core/Face3" ],
 			[ "Face4", "api/core/Face4" ],
 			[ "Geometry", "api/core/Geometry" ],
 			[ "Object3D", "api/core/Object3D" ],
-			[ "Projector", "api/core/Projector" ],
-			[ "Raycaster", "api/core/Raycaster" ],
+			[ "Projector(待译)", "api/core/Projector" ],
+			[ "Raycaster(待译)", "api/core/Raycaster" ],
 		],
 
 		"灯光（Lights）": [
 			[ "Light", "api/lights/Light" ],
 			[ "AmbientLight", "api/lights/AmbientLight" ],
-			[ "AreaLight", "api/lights/AreaLight" ],
+			[ "AreaLight(待译)", "api/lights/AreaLight" ],
 			[ "DirectionalLight", "api/lights/DirectionalLight" ],
 			[ "HemisphereLight", "api/lights/HemisphereLight" ],
 			[ "PointLight", "api/lights/PointLight" ],
-			[ "SpotLight", "api/lights/SpotLight" ]
+			[ "SpotLight(待译)", "api/lights/SpotLight" ]
 		],
 
 
